@@ -1,5 +1,4 @@
-version: "3.7"
-
+---
 services:
   caddy:
     container_name: caddy
@@ -46,7 +45,7 @@ services:
 
   searxng:
     container_name: searxng
-    image: docker.io/searxng/searxng:latest
+    image: elestio/searxng:latest
     restart: unless-stopped
     networks:
       - searxng
@@ -55,11 +54,11 @@ services:
     volumes:
       - ./searxng:/etc/searxng:rw
     environment:
-      - SEARXNG_BASE_URL=https://${SEARXNG_HOSTNAME:-localhost}/
+      - SEARXNG_BASE_URL=${SEARXNG_HOSTNAME:-localhost}/
       - UWSGI_WORKERS=${SEARXNG_UWSGI_WORKERS:-4}
       - UWSGI_THREADS=${SEARXNG_UWSGI_THREADS:-4}
-    cap_drop:
-      - ALL
+    # cap_drop:
+    #   - ALL
     cap_add:
       - CHOWN
       - SETGID
